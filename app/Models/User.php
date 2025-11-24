@@ -17,11 +17,40 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
+        'avatar',
     ];
+
+    /** هنرمند مربوط به این کاربر */
+    public function artist()
+    {
+        return $this->hasOne(Artist::class);
+    }
+
+
+    // پلی‌لیست‌های کاربر
+    public function playlists()
+    {
+        return $this->hasMany(Playlist::class);
+    }
+
+
+    public function likes()
+    {
+        return $this->belongsToMany(Song::class, 'likes');
+    }
+
+    // هنرمندانی که دنبال کرده
+    public function follows()
+    {
+        return $this->belongsToMany(Artist::class, 'follows');
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.
